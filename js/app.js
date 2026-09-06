@@ -53,22 +53,52 @@ async function loadLatestMovies() {
   const container = document.getElementById("dynamic-promo");
   if (!container) return;
 
+  let posts = null;
+
+  // 1. Try direct fetch without custom headers (avoids CORS preflight)
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
     const resp = await fetch("https://thenkiri.com/wp-json/wp/v2/posts?per_page=6", {
-      signal: controller.signal,
-      headers: { Accept: "application/json" }
+      signal: controller.signal
     });
     clearTimeout(timeoutId);
-
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const posts = await resp.json();
-
-    if (!Array.isArray(posts) || posts.length === 0) {
-      container.innerHTML = getFallbackPromo();
-      return;
+    if (resp.ok) {
+      const data = await resp.json();
+      if (Array.isArray(data) && data.length > 0) {
+        posts = data;
+      }
     }
+  } catch (e) {
+    console.log("[Client] Direct movie fetch failed, trying worker fallback:", e.message);
+  }
+
+  // 2. Fallback to Cloudflare edge proxy if direct fetch is blocked by browser/adblocker
+  if (!posts) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const resp = await fetch("https://tv.kalerosemary7.workers.dev/api/shows", {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      if (resp.ok) {
+        const data = await resp.json();
+        if (Array.isArray(data) && data.length > 0) {
+          posts = data;
+        }
+      }
+    } catch (e) {
+      console.log("[Client] Worker fallback failed:", e.message);
+    }
+  }
+
+  if (!posts || posts.length === 0) {
+    // If dynamic-promo already contains pre-rendered cards, don't overwrite with fallback
+    if (container.querySelector(".promo-card")) return;
+    container.innerHTML = getFallbackPromo();
+    return;
+  }
 
     const cardsHtml = posts.map(p => {
       const title = cleanMovieTitle(p?.title?.rendered);
