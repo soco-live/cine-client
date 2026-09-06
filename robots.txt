@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://movies.tvphone.com/sitemap.xml
+Sitemap: https://shows.tvphone.com/sitemap.xml
