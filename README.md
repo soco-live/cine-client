@@ -80,7 +80,7 @@ Enable Unknown Sources → Downloader → paste link → Install → remote.
 
 | App | App |
 |---|---|
-| <a href="https://soco-live.github.io#readme"><img src="assets/socolive_logo.png" width="80" alt="Socolive"><br><sub><strong>Socolive TV</strong></sub></a> | <a href="https://github.com/soco-live/ani-player#readme"><img src="assets/animepahe_logo.png" width="80" alt="AnimePahe"><br><sub><strong>AnimePahe TV</strong></sub></a> |
+| <a href="https://sports.tvphone.com#readme"><img src="assets/socolive_logo.png" width="80" alt="Socolive"><br><sub><strong>Socolive TV</strong></sub></a> | <a href="https://github.com/soco-live/ani-player#readme"><img src="assets/animepahe_logo.png" width="80" alt="AnimePahe"><br><sub><strong>AnimePahe TV</strong></sub></a> |
 
 ---
 
