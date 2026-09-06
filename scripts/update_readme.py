@@ -22,7 +22,7 @@ def post_fb(latest):
     try:
         lines=["🎬 Latest on Nkiri TV"]
         for it in latest[:5]: lines.append(f"🎞️ {it.get('title','')[:45]}")
-        lines.append("\n📲 https://github.com/soco-live/nkiri-releases#download")
+        lines.append("\n📲 https://movies.tvphone.com#download")
         message="\n".join(lines)
         last_file=os.path.join(REPO,".fb_last_post_id")
         if os.path.exists(last_file):
