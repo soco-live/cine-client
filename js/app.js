@@ -100,6 +100,7 @@ async function loadLatestMovies() {
     return;
   }
 
+  try {
     const cardsHtml = posts.map(p => {
       const title = cleanMovieTitle(p?.title?.rendered);
       const yoastImg = p?.yoast_head_json?.og_image?.[0]?.url;
